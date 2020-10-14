@@ -17,8 +17,10 @@
 # 
 # ### Missing Values
 # It is not uncommon to have datasets with missing values. Missing values are usually coded as an out of range value, such as an empty string in a text field, -1 in a numeric field that is normally positive, or 0 in a numeric field that cannot take on the value of 0. In the Scipy ecosystem, the common value `NaN` (not a number) is used to denote missing data. There is support in the Scipy libraries to handle `NaN` specially. For example, the Pandas function [`isnull()`](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.isnull.html) returns a Boolean array detecting the `NaN` values element-wise and [`dropna()`](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.dropna.html) removes `NaN` values from a series or data frame:
-import numpy as np
+import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
+
 x = np.arange(0, 10)
 ser = pd.Series(x)
 ser[1] = np.NaN
@@ -80,10 +82,6 @@ print(ser)
 # 
 # ### Load the Data
 # First we are going to load the data into a `pandas` `DataFrame` object. The header row is the first row in the file. We are not going to set an index column for the data because there is not a column in the csv file that contains unique values.
-
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
 
 fname = "pd_hoa_activities.csv"
 df = pd.read_csv(fname, header=0)
