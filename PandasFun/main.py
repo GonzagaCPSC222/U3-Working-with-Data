@@ -109,3 +109,26 @@ print(df)
 # task: create a dataframe for the population data
 # 3 columns: "City", "Population", "Class"
 # "Class" can be "Large" "Medium" or "Small"
+pop_data = [["Seattle", 737015, "Large"],
+            ["Bothell", 48161, "Medium"],
+            ["Ritzville", 1767, "Small"],
+            ["Spokane", 228989, "Large"]]
+column_names = ["City", "Population", "Class"]
+pop_df = pd.DataFrame(pop_data, columns=column_names)
+pop_df = pop_df.set_index("City")
+print(pop_df)
+
+# indexing
+pop_ser = pop_df["Population"]
+print(pop_ser)
+seattle_ser = pop_df.iloc[0]
+print(seattle_ser)
+seattle_pop = pop_df.iloc[0, 0]
+print(seattle_pop)
+# use .loc[] for label based indexing
+seattle_pop = pop_df.loc["Seattle", "Population"]
+print(seattle_pop)
+
+# lets load regions.csv into a dataframe
+regions_df = pd.read_csv("regions.csv", index_col=0)
+print(regions_df)
