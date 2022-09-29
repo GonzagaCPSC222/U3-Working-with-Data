@@ -63,7 +63,49 @@
 # there are several ways to make a Series
 # from lists
 import pandas as pd
+
 populations = [737015, 48161, 20926, 1767]
 cities = ["Seattle", "Bothell", "Mill Creek", "Ritzville"]
 pop_ser = pd.Series(populations)
 print(pop_ser)
+pop_ser = pd.Series(populations, index=cities)
+print(pop_ser)
+# we can name a series
+pop_ser.name = "Population"
+print(pop_ser)
+
+# indexing
+print(pop_ser["Bothell"])
+print(pop_ser[["Bothell", "Ritzville"]])
+print(pop_ser["Bothell": "Ritzville"]) # inclusive of end when using labels
+# use .iloc[] for position-based indexing
+print(pop_ser.iloc[1])
+print()
+print(pop_ser.iloc[[1, 3]])
+print()
+print(pop_ser.iloc[1:3]) # exclusive of end when using position
+
+# summary stats
+print(pop_ser.mean())
+print(pop_ser.std())
+
+# we can new data to a series, much like adding
+# a new key-value pair to a dictionary
+pop_ser["Mukilteo"] = 21538
+print(pop_ser)
+
+# we can have an empty series
+pop_ser2 = pd.Series(dtype=int)
+pop_ser2["Mukilteo"] = 21538
+print(pop_ser2)
+
+# now, dataframes are used for storing 2D data using pandas
+# lets make a dataframe from a 2D list
+twod_list = [["a", 7, 11.1], ["b", 22, 56.3], ["c", 813, 909.99]]
+column_names = ["col1", "col2", "col3"]
+row_names = ["row1", "row2", "row3"]
+df = pd.DataFrame(twod_list, columns=column_names, index=row_names)
+print(df)
+# task: create a dataframe for the population data
+# 3 columns: "City", "Population", "Class"
+# "Class" can be "Large" "Medium" or "Small"
