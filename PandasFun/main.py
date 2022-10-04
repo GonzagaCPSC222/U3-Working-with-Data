@@ -132,3 +132,48 @@ print(seattle_pop)
 # lets load regions.csv into a dataframe
 regions_df = pd.read_csv("regions.csv", index_col=0)
 print(regions_df)
+
+# let's join pop_df with the regions_df to produce
+# a third dataframe called merged_df
+# we will join on the column they have in common
+# ("City", which also happens to be the index)
+merged_df = pop_df.merge(regions_df, on="City", how="outer")
+# by default, merge does an inner join
+print(merged_df)
+
+# we can write a dataframe (and a series) to a file
+merged_df.to_csv("merged.csv")
+
+# data aggregation
+# let's split merged_df on "Class" and apply the 
+# mean() to all the Population series in the Class subtables
+# and combine the populations means into a final Series
+# 1. split
+grouped_by_class = merged_df.groupby("Class")
+print(grouped_by_class)
+print(grouped_by_class.groups.keys())
+large_df = grouped_by_class.get_group("Large")
+print(large_df)
+print(type(large_df))
+# we don't want to hard code extracted each attribute value's
+# data frame with get_group()
+# instead, we are going to write extensible code using...
+# a loop!!
+mean_pop_ser = pd.Series(dtype=float)
+for group_name, group_df in grouped_by_class:
+    print(group_name)
+    print(group_df)
+    # 2. apply
+    group_pop_ser = group_df["Population"]
+    group_pop_mean = group_pop_ser.mean()
+    print(group_pop_mean)
+    # 3. combine
+    mean_pop_ser[group_name] = group_pop_mean
+    print("*****")
+
+print("split apply combine results:")
+print(mean_pop_ser)
+
+# smaller way :)
+mean_pop_ser = grouped_by_class["Population"].mean()
+print(mean_pop_ser)
