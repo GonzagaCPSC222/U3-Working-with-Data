@@ -41,3 +41,92 @@
 # (you want to predict)
 # maybe you want to use data mining to
 # look for trends, groups, associations, outliers, etc...
+
+# PANDAS
+# a data science library
+# built on top of NumPy
+# why pandas?
+# lots of great built in data science functionality
+# like indexing, slicing, cleaning, stats, ...
+# major shortcomings of using 2D lists of tables
+# 1. lack of label-based indexing
+# 2. lot of work to grab a column
+
+# 2 main data storage objects
+# 1. 1D: Series
+# 2. 2D: DataFrame (every column is a Series)
+
+# lets start with Series
+# you can create a Series from many different date types
+# lets make one from a list
+import pandas as pd
+
+pops = [229447, 755078, 151574, 38977]
+cities = ["Spokane", "Seattle", "Bellevue", "Issaquah"]
+pop_ser = pd.Series(pops, index=cities)
+pop_ser.name = "Population"
+print(pop_ser)
+
+# indexing
+print(pop_ser["Seattle"])
+print(pop_ser[["Seattle", "Issaquah"]])
+print(pop_ser["Seattle":"Issaquah"]) # label based slicing
+# is inclusive of the stop label
+# use .iloc[ ] for position based indexing
+print(pop_ser.iloc[1])
+print(pop_ser.iloc[[1, 3]])
+print(pop_ser.iloc[1:3]) # position based slicing
+# is exclusive of the stop label
+
+# summary stats
+print(pop_ser.mean())
+print(pop_ser.std())
+
+# we can add a new value to the series
+# much like we add a new key-value pair to a dictionary
+pop_ser["Sammamish"] = 65116
+print(pop_ser)
+
+# we can also make an empty Series
+pop_ser2 = pd.Series(dtype=int)
+pop_ser2["Federal Way"] = 97701
+print(pop_ser2)
+print()
+
+# time for DataFrames!
+# lets make a DataFrame from a 2D list
+twod_list = [["a", 3, 99.9],
+             ["b", 60, -12.1],
+             ["c", 1, 5.5555]]
+df = pd.DataFrame(twod_list,
+                  index=["row1", "row2", "row3"],
+                  columns=["col1", "col2", "col3"])
+print(df)
+# task: make a dataframe for our city population data
+# columns: "City", "Population", "Size"
+# where Size is one of "Small", "Medium", "Large"
+pop_data = [["Spokane", 229447, "Large"],
+            ["Seattle", 755078, "Large"],
+            ["Bellevue", 151574, "Medium"],
+            ["Issaquah", 38977, "Small"]]
+pop_df = pd.DataFrame(pop_data, columns=["City", "Population", "Size"])
+pop_df = pop_df.set_index("City")
+print(pop_df)
+print()
+
+# indexing
+# GS cleaning up this section a bit after class
+pop_ser = pop_df["Population"]
+print(pop_ser)
+seattle_ser = pop_df.iloc[1]
+print(seattle_ser)
+seattle_pop = pop_df.iloc[1, 0]
+print(seattle_pop)
+# use .loc[ ] to do label based row indexing
+seattle_ser = pop_df.loc["Seattle"]
+print(seattle_ser)
+seattle_pop = pop_df.loc["Seattle", "Population"]
+print(seattle_pop)
+
+
+# look into pd.read_csv("filename")
