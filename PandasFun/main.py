@@ -41,4 +41,3 @@
 # (you want to predict)
 # maybe you want to use data mining to
 # look for trends, groups, associations, outliers, etc...
-
