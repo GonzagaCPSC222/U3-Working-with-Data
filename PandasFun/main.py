@@ -148,20 +148,20 @@ merged_df.to_csv("merged.csv")
 # gathering and presenting data in a summarized form
 # lets see split apply combine in action!
 # 1. split
-grouped_by_class = merged_df.groupby("Size")
+grouped_by_size = merged_df.groupby("Size")
 
 # short way to do # 2. apply and #3. combine
-mean_pop_ser = grouped_by_class["Population"].mean()
+mean_pop_ser = grouped_by_size["Population"].mean()
 print("short way: split apply combine results:")
 print(mean_pop_ser)
 print()
 
 # GS adding after class
 # longer way to do #2. apply and #3. combine
-# (explaining what is going on with grouped_by_class)
-print(grouped_by_class)
-print(grouped_by_class.groups.keys())
-large_df = grouped_by_class.get_group("Large")
+# (explaining what is going on with grouped_by_size)
+print(grouped_by_size)
+print(grouped_by_size.groups.keys())
+large_df = grouped_by_size.get_group("Large")
 print(large_df)
 print(type(large_df))
 # we don't want to hard code extracted each attribute value's
@@ -169,7 +169,7 @@ print(type(large_df))
 # instead, we are going to write extensible code using...
 # a loop!!
 mean_pop_ser = pd.Series(dtype=float)
-for group_name, group_df in grouped_by_class:
+for group_name, group_df in grouped_by_size:
     print(group_name)
     print(group_df)
     # 2. apply
