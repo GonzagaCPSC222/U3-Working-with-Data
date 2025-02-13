@@ -147,12 +147,39 @@ merged_df.to_csv("merged.csv")
 # data aggregation
 # gathering and presenting data in a summarized form
 # lets see split apply combine in action!
-# lets split merged_df by Size
-# use pandas groupby()
-grouped_by_size = merged_df.groupby("Size")
-# next lets apply a mean to all the subtable's Population
-# columns
-# combine the subtable Population means into 
-# a single Series
-mean_pop_ser = grouped_by_size["Population"].mean()
+# 1. split
+grouped_by_class = merged_df.groupby("Size")
+
+# short way to do # 2. apply and #3. combine
+mean_pop_ser = grouped_by_class["Population"].mean()
+print("short way: split apply combine results:")
 print(mean_pop_ser)
+print()
+
+# GS adding after class
+# longer way to do #2. apply and #3. combine
+# (explaining what is going on with grouped_by_class)
+print(grouped_by_class)
+print(grouped_by_class.groups.keys())
+large_df = grouped_by_class.get_group("Large")
+print(large_df)
+print(type(large_df))
+# we don't want to hard code extracted each attribute value's
+# data frame with get_group()
+# instead, we are going to write extensible code using...
+# a loop!!
+mean_pop_ser = pd.Series(dtype=float)
+for group_name, group_df in grouped_by_class:
+    print(group_name)
+    print(group_df)
+    # 2. apply
+    group_pop_ser = group_df["Population"]
+    group_pop_mean = group_pop_ser.mean()
+    print(group_pop_mean)
+    # 3. combine
+    mean_pop_ser[group_name] = group_pop_mean
+    print("*****")
+
+print("long way: split apply combine results:")
+print(mean_pop_ser)
+
