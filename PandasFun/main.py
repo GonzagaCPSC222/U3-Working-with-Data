@@ -130,3 +130,29 @@ print(seattle_pop)
 
 
 # look into pd.read_csv("filename")
+# lets load up regions.csv into a dataframe
+region_df = pd.read_csv("regions.csv", index_col=0)
+print(region_df)
+
+# now lets join pop_df and region_df on "City"
+# to make a 3rd DataFrame
+# by default, merge() does an inner join
+merged_df = pop_df.merge(region_df, on=["City"], how="outer")
+print(merged_df)
+
+# lets write the contents of merged_df to a file
+# merged.csv
+merged_df.to_csv("merged.csv")
+
+# data aggregation
+# gathering and presenting data in a summarized form
+# lets see split apply combine in action!
+# lets split merged_df by Size
+# use pandas groupby()
+grouped_by_size = merged_df.groupby("Size")
+# next lets apply a mean to all the subtable's Population
+# columns
+# combine the subtable Population means into 
+# a single Series
+mean_pop_ser = grouped_by_size["Population"].mean()
+print(mean_pop_ser)
